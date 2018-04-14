@@ -11,7 +11,7 @@ function jwtSignUser (user) {
 
 module.exports = {
   async register (req, res) {
-    try { 
+    try {
       const user = await User.create(req.body)
       const userJson = user.toJSON()
       res.send({
@@ -21,9 +21,9 @@ module.exports = {
     } catch (err) {
       res.status(400).send({
         message: 'This email account is already in use'
-        })
-      }
-    },
+      })
+    }
+  },
   async login (req, res) {
     try {
       const {email, password} = req.body

@@ -10,7 +10,7 @@
     <v-toolbar-items>
       <v-btn
         flat
-        @click="navigateTo({name: 'songs'})"
+        @click="navigateTo({name: 'Songs'})"
       >Browse</v-btn>
       <v-btn
         flat

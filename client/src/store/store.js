@@ -15,7 +15,7 @@ const store = new Vuex.Store({
       state.token = token
       if (token) {
         state.isUserLoggedIn = true
-      } else { 
+      } else {
         state.isUserLoggedIn = false
       }
     },

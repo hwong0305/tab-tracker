@@ -7,7 +7,7 @@ module.exports = {
       password: Joi.string().regex(/^[A-Za-z0-9]{8,32}$/)
     }
 
-    const {error, value} = Joi.validate(req.body, schema)
+    const {error} = Joi.validate(req.body, schema)
 
     if (error) {
       switch (error.details[0].context.key) {
@@ -31,7 +31,6 @@ module.exports = {
             error: 'Invalid registration information'
           })
       }
-
     } else {
       next()
     }

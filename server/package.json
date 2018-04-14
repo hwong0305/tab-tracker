@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
-    "lint": "./node_modules/eslint/bin/eslint.js **/*.js"
+    "start": "nodemon src/app.js --exec \"npm run lint && node\"",
+    "lint": "eslint src/**/*.js"
   },
   "keywords": [],
   "author": "",
