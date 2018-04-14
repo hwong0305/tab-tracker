@@ -2,7 +2,7 @@
   <v-layout align-center justify-center>
     <v-flex xs6>
       <v-toolbar color="primary" dark>
-        <v-toolbar-title>Registration</v-toolbar-title>
+        <v-toolbar-title>Login</v-toolbar-title>
       </v-toolbar>
       <v-form class="elevation-6 px-2">
         <v-text-field
@@ -18,9 +18,9 @@
         <div>
           <div class="red-text" v-html="error" />
           <v-btn
-            @click="register"
+            @click="login"
             color="primary"
-          >Register</v-btn>
+          >Login</v-btn>
         </div>
       </v-form>
     </v-flex>
@@ -38,15 +38,15 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
         this.error = null
-        const response = await AuthenticationService.register({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
         this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.User)
+        this.$store.dispatch('setUser', response.data.user)
       } catch (error) {
         this.error = error.response.data.error
       }
