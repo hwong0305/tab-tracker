@@ -59,7 +59,7 @@
         </panel>
         <div class="red-text" v-html="error">
         </div>
-        <v-btn color="primary" @click="create">Create Song</v-btn>
+        <v-btn color="primary" @click="save">Save Song</v-btn>
       </v-flex>
   </v-layout>
 </template>
@@ -88,7 +88,8 @@ export default {
     Panel
   },
   methods: {
-    async create () {
+    async save () {
+      this.error = null
       const areAllFieldsFilledIn = Object
         .keys(this.song)
         .every(key => !!this.song[key])
@@ -97,11 +98,21 @@ export default {
         return
       }
       try {
-        await SongsService.post(this.song)
-        this.$router.push({name: 'Songs'})
+        await SongsService.put(this.song)
+        this.$router.push({
+          name: 'Songs'
+        })
       } catch (err) {
         console.log(err)
       }
+    }
+  },
+  async mounted () {
+    try {
+      const songId = this.$store.state.route.params.songId
+      this.song = (await SongsService.show(songId)).data
+    } catch (err) {
+      console.log(err)
     }
   }
 }
