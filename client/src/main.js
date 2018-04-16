@@ -8,10 +8,12 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import 'vuetify/dist/vuetify.min.css'
 import store from './store/store'
+import Panel from '@/components/Global/Panel'
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueYouTubeEmbed)
+Vue.component('panel', Panel)
 
 sync(store, router)
 

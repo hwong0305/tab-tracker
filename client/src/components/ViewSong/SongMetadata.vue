@@ -14,14 +14,28 @@
               <br>
               <v-btn
                 color="primary"
-                @click="navigateTo({
+                :to="{
                   name: 'song-edit',
-                  params: {
-                    songId: song.id
+                  params () {
+                    return {
+                      songId: song.id
+                    }
                   }
-                })"
+                }"
               >
                 Edit
+              </v-btn>
+              <v-btn
+                color="primary"
+                v-if="isUserLoggedIn && !bookmark"
+                @click="setAsBookmark">
+                Bookmark
+              </v-btn>
+              <v-btn
+                color="primary"
+                v-if="isUserLoggedIn && bookmark"
+                @click='unSetAsBookmark'>
+                UnBookmark
               </v-btn>
             </v-flex>
             <v-flex xs7>
@@ -34,19 +48,58 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
+import {mapState} from 'vuex'
+import BookmarksService from '@/services/BookmarksService'
 export default {
-  methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    }
-  },
-  components: {
-    Panel
-  },
   props: [
     'song'
-  ]
+  ],
+  data () {
+    return {
+      bookmark: null
+    }
+  },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn'
+    ])
+  },
+  watch: {
+    async song () {
+      if (!this.isUserLoggedIn) {
+        return
+      }
+
+      try {
+        this.bookmark = (await BookmarksService.index({
+          songId: this.song.id,
+          userId: this.$store.state.user.id
+        })).data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  methods: {
+    async setAsBookmark () {
+      try {
+        this.bookmark = (await BookmarksService.post({
+          songId: this.song.id,
+          userId: this.$store.state.user.id
+        })).data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async unSetAsBookmark () {
+      try {
+        await BookmarksService.delete(this.bookmark.id)
+        this.bookmark = null
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
 
