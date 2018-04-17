@@ -10,6 +10,8 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('combined'))
 
+require('./passport')
+
 require('./routes.js')(app)
 
 sequelize.sync()
