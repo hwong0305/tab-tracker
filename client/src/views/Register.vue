@@ -44,8 +44,10 @@
                         email: this.email,
                         password: this.password
                     };
-                    await authService.register(user);
-                    console.log('Success');
+                    const response = await authService.register(user);
+                    this.$router.push({
+                        name: 'login'
+                    })
                 } catch (error) {
                     alert(error);
                 }

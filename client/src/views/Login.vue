@@ -37,8 +37,12 @@
                         email: this.email,
                         password: this.password
                     };
-                    await authService.login(user);
-                    console.log('SUCCESS');
+                    const response = await authService.login(user);
+                    console.log(response);
+                    this.$store.dispatch('setToken', response.data.token);
+                    this.$router.push({
+                        name: 'home'
+                    });
                 } catch (error) {
                     alert(error);
                 }

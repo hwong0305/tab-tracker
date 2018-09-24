@@ -1,4 +1,5 @@
 module.exports = {
+    secret: 'mysecret', // I will reveal my secret key since this is only a development application.
     development: {
         username: 'tabtracker',
         password: null,
