@@ -3,7 +3,7 @@
         <v-layout align-center justify-center wrap>
             <v-flex md6>
                 <!-- Use the prop first=true to display the add symbol -->
-                <Panel title="Single" class="mr-1" first="true">
+                <Panel title="Single" class="mr-1">
                     <h3>Artist</h3>
                     <h3>Title</h3>
                     <h3>Album</h3>
