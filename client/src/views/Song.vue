@@ -16,17 +16,19 @@
             </v-flex>
             <v-flex md6 xs12>
                 <Panel title="YouTube" class="ml-1">
+                    <youtube :video-id="song.youtubeUrl.slice(32)" height="300" />
                 </Panel>
             </v-flex>
-            <v-flex md12 xs12 class="mt-4">
+            <v-flex md12 xs12 class="mt-4" v-if="loggedIn">
                 <v-btn color="info">Edit</v-btn>
-                <v-btn color="error">Delete</v-btn>
+                <v-btn color="error" v-on:click="deleteSong()">Delete</v-btn>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Panel from '../components/Panel';
 import songService from '../services/songService';
 export default {
@@ -50,6 +52,21 @@ export default {
             this.song = song;
         } catch (error) {
             console.log({ error });
+        }
+    },
+    computed: mapState({
+        loggedIn: 'loggedIn'
+    }),
+    methods: {
+        async deleteSong() {
+            try {
+                await songService.delete(this.song);
+                this.$router.push({
+                    name: 'home'
+                });
+            } catch (error) {
+                alert('Error deleting song');
+            }
         }
     }
 };

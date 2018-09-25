@@ -2,12 +2,6 @@
     <div class="elevation-12">
         <v-toolbar color="primary" dark>
             <v-toolbar-title>{{title}}</v-toolbar-title>
-            <v-spacer />
-            <v-toolbar-items>
-                <v-btn flat icon v-if="first" to="/songs/add">
-                    <v-icon>add</v-icon>
-                </v-btn>
-            </v-toolbar-items>
         </v-toolbar>
         <div id="body">
             <slot>
@@ -34,7 +28,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    min-height: 250px;
+    min-height: 300px;
 }
 
 #body > h3 {

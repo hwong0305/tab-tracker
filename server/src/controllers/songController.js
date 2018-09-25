@@ -54,5 +54,22 @@ module.exports = {
                 error
             });
         }
+    },
+    async delete(req, res) {
+        try {
+            const song = await Song.findById(req.body.id);
+            if (song) {
+                song.destroy();
+                res.send({
+                    success: true
+                });
+            } else {
+                res.status(404).send('SONG NOT FOUND');
+            }
+        } catch (error) {
+            res.status(500).send({
+                error
+            });
+        }
     }
 };

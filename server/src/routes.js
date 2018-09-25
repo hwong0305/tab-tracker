@@ -10,5 +10,6 @@ router.get('/songs', songController.index);
 router.get('/songs/:id', songController.find);
 router.post('/songs/add', songController.add);
 router.put('/songs/edit', songController.edit);
+router.post('/songs/delete', songController.delete);
 
 module.exports = router;

@@ -9,5 +9,8 @@ export default {
     },
     find(id) {
         return Api().get(`/songs/${id}`);
+    },
+    delete(song) {
+        return Api().post('/songs/delete', song);
     }
 };

@@ -53,8 +53,11 @@ export default {
     mounted: async function() {
         this.songs = (await songService.index()).data;
     },
-    computed: mapState({
-        loggedIn: 'loggedIn'
-    })
+    computed: {
+        // Not necessary but implemented if need more computed items after.
+        ...mapState({
+            loggedIn: 'loggedIn'
+        })
+    }
 };
 </script>
