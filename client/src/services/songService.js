@@ -6,5 +6,8 @@ export default {
     },
     add(song) {
         return Api().post('/songs/add', song);
+    },
+    find(id) {
+        return Api().get(`/songs/${id}`);
     }
 };

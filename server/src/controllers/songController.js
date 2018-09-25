@@ -40,5 +40,19 @@ module.exports = {
                 error: error
             });
         }
+    },
+    async find(req, res) {
+        try {
+            const song = await Song.findById(req.params.id);
+            if (song) {
+                res.send(song);
+            } else {
+                res.status(404).send('SONG NOT FOUND');
+            }
+        } catch (error) {
+            res.status(500).send({
+                error
+            });
+        }
     }
 };

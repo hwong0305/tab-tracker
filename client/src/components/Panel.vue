@@ -4,7 +4,9 @@
             <v-toolbar-title>{{title}}</v-toolbar-title>
             <v-spacer />
             <v-toolbar-items>
-                <v-btn flat icon v-if="first" to="/songs/add"><v-icon>add</v-icon></v-btn>
+                <v-btn flat icon v-if="first" to="/songs/add">
+                    <v-icon>add</v-icon>
+                </v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <div id="body">
@@ -36,8 +38,7 @@ export default {
 }
 
 #body > h3 {
-    margin-top: 20px;
-    margin-bottom: 20px;
     width: 100%;
+    margin: 0 0 0 0;
 }
 </style>

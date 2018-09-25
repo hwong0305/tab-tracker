@@ -22,7 +22,7 @@ export default new Router({
             component: () => import('./views/Register')
         },
         {
-            path: '/songs',
+            path: '/songs/view/:id',
             name: 'song',
             component: () => import('./views/Song')
         },
@@ -33,7 +33,7 @@ export default new Router({
             component: () => import('./views/SongForm')
         },
         {
-            path: '/songs/:id/edit',
+            path: '/songs/edit/:id',
             name: 'editSong',
             component: () => import('./views/SongForm')
         }
