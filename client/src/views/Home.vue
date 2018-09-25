@@ -13,15 +13,12 @@
                 </v-toolbar>
                 <v-data-table :headers="headers" :items="songs">
                     <template slot="items" slot-scope="props">
-                        <td class="px-0">{{props.item.id}}</td>
-                        <td class="text-md-left">{{props.item.title}}</td>
-                        <td class="text-xs-left">{{props.item.artist}}</td>
-                        <td class="text-xs-left">{{props.item.album}}</td>
-                        <td class="px-0">
-                            <v-btn flat icon :to="'/songs/view/'+props.item.id">
-                                <v-icon small>crop_free</v-icon>
-                            </v-btn>
-                        </td>
+                        <tr @click="handleClick(props.item.id)">
+                            <td class="px-0">{{props.item.id}}</td>
+                            <td class="text-md-left">{{props.item.title}}</td>
+                            <td class="text-xs-left">{{props.item.artist}}</td>
+                            <td class="text-xs-left">{{props.item.album}}</td>
+                        </tr>
                     </template>
                 </v-data-table>
             </v-flex>
@@ -30,34 +27,43 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import songService from '../services/songService';
-import Panel from '../components/Panel';
-export default {
-    name: 'home',
-    components: {
-        Panel
-    },
-    data: function() {
-        return {
-            headers: [
-                { text: 'Number', value: 'id' },
-                { text: 'Title', value: 'title' },
-                { text: 'Arist', value: 'artist' },
-                { text: 'Album', value: 'album' },
-                { text: 'Actions', value: 'action', sortable: false }
-            ],
-            songs: []
-        };
-    },
-    mounted: async function() {
-        this.songs = (await songService.index()).data;
-    },
-    computed: {
-        // Not necessary but implemented if need more computed items after.
-        ...mapState({
-            loggedIn: 'loggedIn'
-        })
-    }
-};
+    import { mapState } from 'vuex';
+    import songService from '../services/songService';
+    import Panel from '../components/Panel';
+    export default {
+        name: 'home',
+        components: {
+            Panel
+        },
+        data: function() {
+            return {
+                headers: [
+                    { text: 'Number', value: 'id' },
+                    { text: 'Title', value: 'title' },
+                    { text: 'Arist', value: 'artist' },
+                    { text: 'Album', value: 'album' }
+                ],
+                songs: []
+            };
+        },
+        mounted: async function() {
+            this.songs = (await songService.index()).data;
+        },
+        computed: {
+            // Not necessary but implemented if need more computed items after.
+            ...mapState({
+                loggedIn: 'loggedIn'
+            })
+        },
+        methods: {
+            handleClick: function(id) {
+                this.$router.push({
+                    name: 'song',
+                    params: {
+                        id: id
+                    }
+                });
+            }
+        }
+    };
 </script>

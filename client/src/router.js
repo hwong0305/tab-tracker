@@ -31,11 +31,6 @@ export default new Router({
             path: '/songs/add',
             name: 'addSong',
             component: () => import('./views/SongForm')
-        },
-        {
-            path: '/songs/edit/:id',
-            name: 'editSong',
-            component: () => import('./views/SongForm')
         }
     ]
 });

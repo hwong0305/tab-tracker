@@ -12,5 +12,8 @@ export default {
     },
     delete(song) {
         return Api().post('/songs/delete', song);
+    },
+    update(song) {
+        return Api().put('/songs/edit', song);
     }
 };

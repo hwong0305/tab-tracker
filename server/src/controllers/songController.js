@@ -31,7 +31,14 @@ module.exports = {
         try {
             const song = await Song.findById(req.body.id);
             if (song) {
-                res.send('FOUND SONG');
+                song.update({
+                    title: req.body.title,
+                    artist: req.body.artist,
+                    album: req.body.album,
+                    albumImg: req.body.albumImg,
+                    youtubeUrl: req.body.youtubeUrl
+                });
+                res.send(song);
             } else {
                 res.status(404).send('SONG NOT FOUND');
             }

@@ -20,7 +20,7 @@
                 </Panel>
             </v-flex>
             <v-flex md12 xs12 class="mt-4" v-if="loggedIn">
-                <v-btn color="info">Edit</v-btn>
+                <edit-song :song="song" />
                 <v-btn color="error" v-on:click="deleteSong()">Delete</v-btn>
             </v-flex>
         </v-layout>
@@ -28,53 +28,55 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Panel from '../components/Panel';
-import songService from '../services/songService';
-export default {
-    components: {
-        Panel
-    },
-    data: function() {
-        return {
-            song: {
-                title: '',
-                artist: '',
-                album: '',
-                albumImg: '',
-                youtubeUrl: ''
-            }
-        };
-    },
-    mounted: async function() {
-        try {
-            const song = (await songService.find(this.$route.params.id)).data;
-            this.song = song;
-        } catch (error) {
-            console.log({ error });
-        }
-    },
-    computed: mapState({
-        loggedIn: 'loggedIn'
-    }),
-    methods: {
-        async deleteSong() {
+    import { mapState } from 'vuex';
+    import Panel from '../components/Panel';
+    import songService from '../services/songService';
+    import EditSong from '../components/EditSongModal';
+    export default {
+        components: {
+            EditSong,
+            Panel
+        },
+        data: function() {
+            return {
+                song: {
+                    title: '',
+                    artist: '',
+                    album: '',
+                    albumImg: '',
+                    youtubeUrl: ''
+                }
+            };
+        },
+        mounted: async function() {
             try {
-                await songService.delete(this.song);
-                this.$router.push({
-                    name: 'home'
-                });
+                const song = (await songService.find(this.$route.params.id)).data;
+                this.song = song;
             } catch (error) {
-                alert('Error deleting song');
+                console.log({ error });
+            }
+        },
+        computed: mapState({
+            loggedIn: 'loggedIn'
+        }),
+        methods: {
+            async deleteSong() {
+                try {
+                    await songService.delete(this.song);
+                    this.$router.push({
+                        name: 'home'
+                    });
+                } catch (error) {
+                    alert('Error deleting song');
+                }
             }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>
-#albumImg {
-    height: 200px;
-    width: 200px;
-}
+    #albumImg {
+        height: 200px;
+        width: 200px;
+    }
 </style>

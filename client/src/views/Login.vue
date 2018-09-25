@@ -38,7 +38,6 @@
                         password: this.password
                     };
                     const response = await authService.login(user);
-                    console.log(response);
                     this.$store.dispatch('setToken', response.data.token);
                     this.$router.push({
                         name: 'home'

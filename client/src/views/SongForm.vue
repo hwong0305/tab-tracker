@@ -1,5 +1,5 @@
 <template>
-        <v-container fluid fill-height>
+    <v-container fluid fill-height>
         <v-layout align-center justify-center>
             <v-flex md6>
                 <v-card class="elevation-12">
@@ -26,37 +26,37 @@
 </template>
 
 <script>
-import songService from '../services/songService';
-export default {
-    data: function() {
-        return {
-            title: '',
-            artist: '',
-            album: '',
-            albumImg: '',
-            youtubeUrl: ''
-        };
-    },
-    methods: {
-        async addSong() {
-            try {
-                const song = {
-                    title: this.title,
-                    artist: this.artist,
-                    album: this.album,
-                    albumImg: this.albumImg,
-                    youtubeUrl: this.youtubeUrl
-                };
-                await songService.add(song);
-                this.$router.push({
-                    name: 'song'
-                });
-            } catch (error) {
-                alert(error);
+    import songService from '../services/songService';
+    export default {
+        data: function() {
+            return {
+                title: '',
+                artist: '',
+                album: '',
+                albumImg: '',
+                youtubeUrl: ''
+            };
+        },
+        methods: {
+            async addSong() {
+                try {
+                    const song = {
+                        title: this.title,
+                        artist: this.artist,
+                        album: this.album,
+                        albumImg: this.albumImg,
+                        youtubeUrl: this.youtubeUrl
+                    };
+                    await songService.add(song);
+                    this.$router.push({
+                        name: 'home'
+                    });
+                } catch (error) {
+                    alert(error);
+                }
             }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>
