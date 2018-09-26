@@ -14,6 +14,7 @@ module.exports = {
     async add(req, res) {
         try {
             const song = await Song.create({
+                UserId: req.body.UserId,
                 title: req.body.title,
                 artist: req.body.artist,
                 album: req.body.album,
