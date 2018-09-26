@@ -1,4 +1,5 @@
 const { Bookmark } = require('../models');
+const { Song } = require('../models');
 
 module.exports = {
     async index(req, res) {
@@ -45,6 +46,18 @@ module.exports = {
             res.status(500).send({
                 error: error
             });
+        }
+    },
+    async listBookmark(req, res) {
+        try {
+            const bookmarks = await Bookmark.findAll({
+                where: { UserId: req.params.id },
+                include: Song
+            });
+            res.send(bookmarks);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
         }
     }
 };

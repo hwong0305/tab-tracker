@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     Bookmark.associate = function(models) {
         // associations can be defined here
         Bookmark.belongsTo(models.User);
-        Bookmark.hasMany(models.Song);
+        Bookmark.belongsTo(models.Song);
     };
     return Bookmark;
 };

@@ -1,7 +1,12 @@
 <template>
     <v-container class="home" fluid fill-height>
         <v-layout align-center justify-center>
-            <v-flex md6>
+            <v-flex md6 class="mr-2">
+                <v-toolbar flat color="white">
+                    <v-toolbar-title>Bookmark</v-toolbar-title>
+                </v-toolbar>
+            </v-flex>
+            <v-flex md6 id="song">
                 <v-toolbar flat color="white">
                     <v-toolbar-title>Songs</v-toolbar-title>
                     <v-spacer />
@@ -27,43 +32,49 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import songService from '../services/songService';
-    import Panel from '../components/Panel';
-    export default {
-        name: 'home',
-        components: {
-            Panel
-        },
-        data: function() {
-            return {
-                headers: [
-                    { text: 'Number', value: 'id' },
-                    { text: 'Title', value: 'title' },
-                    { text: 'Arist', value: 'artist' },
-                    { text: 'Album', value: 'album' }
-                ],
-                songs: []
-            };
-        },
-        mounted: async function() {
-            this.songs = (await songService.index()).data;
-        },
-        computed: {
-            // Not necessary but implemented if need more computed items after.
-            ...mapState({
-                loggedIn: 'loggedIn'
-            })
-        },
-        methods: {
-            handleClick: function(id) {
-                this.$router.push({
-                    name: 'song',
-                    params: {
-                        id: id
-                    }
-                });
-            }
+import { mapState } from 'vuex';
+import songService from '../services/songService';
+import Panel from '../components/Panel';
+export default {
+    name: 'home',
+    components: {
+        Panel
+    },
+    data: function() {
+        return {
+            headers: [
+                { text: 'Number', value: 'id' },
+                { text: 'Title', value: 'title' },
+                { text: 'Arist', value: 'artist' },
+                { text: 'Album', value: 'album' }
+            ],
+            bookmarkHeaders: [
+                { text: 'Number', value: 'id' },
+                { text: 'Title', value: 'Song.title' },
+                { text: ' Artist', value: 'Song.artist' }
+            ],
+            songs: [],
+            bookmarks: []
+        };
+    },
+    mounted: async function() {
+        this.songs = (await songService.index()).data;
+    },
+    computed: {
+        // Not necessary but implemented if need more computed items after.
+        ...mapState({
+            loggedIn: 'loggedIn'
+        })
+    },
+    methods: {
+        handleClick: function(id) {
+            this.$router.push({
+                name: 'song',
+                params: {
+                    id: id
+                }
+            });
         }
-    };
+    }
+};
 </script>

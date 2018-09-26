@@ -1,9 +1,11 @@
 const { Song } = require('../models');
+const { User } = require('../models');
+const { Bookmark } = require('../models');
 
 module.exports = {
     async index(req, res) {
         try {
-            const songs = await Song.findAll();
+            const songs = await Song.findAll({});
             res.send(songs);
         } catch (error) {
             res.status(500).send({

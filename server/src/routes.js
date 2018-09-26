@@ -20,6 +20,7 @@ router.post('/songs/delete', songController.delete);
 
 // Bookmark Routes
 router.get('/bookmarks', bookmarkController.index);
+router.get('/bookmarks/:id', bookmarkController.listBookmark);
 router.post('/bookmarks/add', bookmarkController.addBookmark);
 router.post('/bookmarks/delete', bookmarkController.deleteBookmark);
 

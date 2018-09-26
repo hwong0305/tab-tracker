@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        user: null,
         token: null,
         loggedIn: false
     },
@@ -12,11 +13,17 @@ export default new Vuex.Store({
         setToken(state, token) {
             state.token = token;
             state.loggedIn = !!token;
+        },
+        setUser(state, user) {
+            state.user = user;
         }
     },
     actions: {
         setToken(context, token) {
             context.commit('setToken', token);
+        },
+        setUser(dispatch, user) {
+            dispatch.commit('setUser', user);
         }
     }
 });
