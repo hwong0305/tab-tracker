@@ -19,7 +19,8 @@
                     <youtube :video-id="song.youtubeUrl.slice(32)" height="300" />
                 </Panel>
             </v-flex>
-            <v-flex md12 xs12 class="mt-4" v-if="loggedIn">
+            <v-flex md12 xs12 class="mt-4" v-if="writeAccess">
+                <v-btn v-on:click="addBookmark()">Bookmark</v-btn>
                 <edit-song :song="song" />
                 <v-btn color="error" v-on:click="deleteSong()">Delete</v-btn>
             </v-flex>
@@ -31,6 +32,7 @@
     import { mapState } from 'vuex';
     import Panel from '../components/Panel';
     import songService from '../services/songService';
+    import bookmarkService from '../services/bookmarkService';
     import EditSong from '../components/EditSongModal';
     export default {
         components: {
@@ -39,25 +41,33 @@
         },
         data: function() {
             return {
+                bookmarked: false,
                 song: {
+                    id: '',
                     title: '',
                     artist: '',
                     album: '',
                     albumImg: '',
-                    youtubeUrl: ''
-                }
+                    youtubeUrl: '',
+                    UserId: null
+                },
+                writeAccess: false
             };
         },
         mounted: async function() {
             try {
                 const song = (await songService.find(this.$route.params.id)).data;
                 this.song = song;
+                if (this.user.id === song.UserId) {
+                    this.writeAccess = true;
+                }
             } catch (error) {
                 console.log({ error });
             }
         },
         computed: mapState({
-            loggedIn: 'loggedIn'
+            loggedIn: 'loggedIn',
+            user: 'user'
         }),
         methods: {
             async deleteSong() {
@@ -68,6 +78,20 @@
                     });
                 } catch (error) {
                     alert('Error deleting song');
+                }
+            },
+            async addBookmark() {
+                try {
+                    if (this.loggedIn) {
+                        const item = {
+                            UserId: this.user.id,
+                            SongId: this.song.id
+                        };
+                        await bookmarkService.add(item);
+                    }
+                } catch (error) {
+                    console.log(error);
+                    alert('Error adding bookmark');
                 }
             }
         }

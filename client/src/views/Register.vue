@@ -47,7 +47,7 @@
                     const response = await authService.register(user);
                     this.$router.push({
                         name: 'login'
-                    })
+                    });
                 } catch (error) {
                     alert(error);
                 }

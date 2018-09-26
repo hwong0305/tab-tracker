@@ -26,42 +26,42 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import songService from '../services/songService';
-export default {
-    data: function() {
-        return {
-            title: '',
-            artist: '',
-            album: '',
-            albumImg: '',
-            youtubeUrl: ''
-        };
-    },
-    computed: mapState({
-        userId: 'user.id'
-    }),
-    methods: {
-        async addSong() {
-            try {
-                const song = {
-                    UserId: this.userId,
-                    title: this.title,
-                    artist: this.artist,
-                    album: this.album,
-                    albumImg: this.albumImg,
-                    youtubeUrl: this.youtubeUrl
-                };
-                await songService.add(song);
-                this.$router.push({
-                    name: 'home'
-                });
-            } catch (error) {
-                alert(error);
+    import { mapState } from 'vuex';
+    import songService from '../services/songService';
+    export default {
+        data: function() {
+            return {
+                title: '',
+                artist: '',
+                album: '',
+                albumImg: '',
+                youtubeUrl: ''
+            };
+        },
+        computed: mapState({
+            user: 'user'
+        }),
+        methods: {
+            async addSong() {
+                try {
+                    const song = {
+                        UserId: this.user.id,
+                        title: this.title,
+                        artist: this.artist,
+                        album: this.album,
+                        albumImg: this.albumImg,
+                        youtubeUrl: this.youtubeUrl
+                    };
+                    await songService.add(song);
+                    this.$router.push({
+                        name: 'home'
+                    });
+                } catch (error) {
+                    alert(error);
+                }
             }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>

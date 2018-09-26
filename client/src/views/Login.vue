@@ -23,32 +23,32 @@
 </template>
 
 <script>
-import authService from '../services/authService';
-export default {
-    name: 'Login',
-    data: () => ({
-        email: '',
-        password: ''
-    }),
-    methods: {
-        async userLogin() {
-            try {
-                const user = {
-                    email: this.email,
-                    password: this.password
-                };
-                const response = await authService.login(user);
-                this.$store.dispatch('setToken', response.data.token);
-                this.$store.dispatch('setUser', response.data.user);
-                this.$router.push({
-                    name: 'home'
-                });
-            } catch (error) {
-                alert(error);
+    import authService from '../services/authService';
+    export default {
+        name: 'Login',
+        data: () => ({
+            email: '',
+            password: ''
+        }),
+        methods: {
+            async userLogin() {
+                try {
+                    const user = {
+                        email: this.email,
+                        password: this.password
+                    };
+                    const response = await authService.login(user);
+                    this.$store.dispatch('setToken', response.data.token);
+                    this.$store.dispatch('setUser', response.data.user);
+                    this.$router.push({
+                        name: 'home'
+                    });
+                } catch (error) {
+                    alert(error);
+                }
             }
         }
-    }
-};
+    };
 </script>
 
 <style scoped>

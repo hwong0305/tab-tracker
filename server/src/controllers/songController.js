@@ -33,17 +33,23 @@ module.exports = {
     async edit(req, res) {
         try {
             const song = await Song.findById(req.body.id);
-            if (song) {
-                song.update({
-                    title: req.body.title,
-                    artist: req.body.artist,
-                    album: req.body.album,
-                    albumImg: req.body.albumImg,
-                    youtubeUrl: req.body.youtubeUrl
-                });
-                res.send(song);
+            if (req.body.UserId === song.UserId) {
+                if (song) {
+                    song.update({
+                        title: req.body.title,
+                        artist: req.body.artist,
+                        album: req.body.album,
+                        albumImg: req.body.albumImg,
+                        youtubeUrl: req.body.youtubeUrl
+                    });
+                    res.send(song);
+                } else {
+                    res.status(404).send('SONG NOT FOUND');
+                }
             } else {
-                res.status(404).send('SONG NOT FOUND');
+                res.status(401).send({
+                    error: 'You do not have access to this'
+                });
             }
         } catch (error) {
             res.status(500).send({
@@ -68,13 +74,19 @@ module.exports = {
     async delete(req, res) {
         try {
             const song = await Song.findById(req.body.id);
-            if (song) {
-                song.destroy();
-                res.send({
-                    success: true
-                });
+            if (song.UserId === req.body.UserId) {
+                if (song) {
+                    song.destroy();
+                    res.send({
+                        success: true
+                    });
+                } else {
+                    res.status(404).send('SONG NOT FOUND');
+                }
             } else {
-                res.status(404).send('SONG NOT FOUND');
+                res.status(401).send({
+                    error: 'You do not have access to this.'
+                });
             }
         } catch (error) {
             res.status(500).send({
