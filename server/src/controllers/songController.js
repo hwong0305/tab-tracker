@@ -1,11 +1,12 @@
 const { Song } = require('../models');
-const { User } = require('../models');
 const { Bookmark } = require('../models');
 
 module.exports = {
     async index(req, res) {
         try {
-            const songs = await Song.findAll({});
+            const songs = await Song.findAll({
+                include: Bookmark
+            });
             res.send(songs);
         } catch (error) {
             res.status(500).send({
@@ -25,6 +26,7 @@ module.exports = {
             });
             res.send(song);
         } catch (error) {
+            console.log(error);
             res.status(500).send({
                 error: error
             });
@@ -59,7 +61,9 @@ module.exports = {
     },
     async find(req, res) {
         try {
-            const song = await Song.findById(req.params.id);
+            const song = await Song.findById(req.params.id, {
+                include: Bookmark
+            });
             if (song) {
                 res.send(song);
             } else {
@@ -76,7 +80,7 @@ module.exports = {
             const song = await Song.findById(req.body.id);
             if (song.UserId === req.body.UserId) {
                 if (song) {
-                    song.destroy();
+                    await song.destroy();
                     res.send({
                         success: true
                     });

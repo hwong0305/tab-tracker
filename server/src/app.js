@@ -14,6 +14,6 @@ app.use(cors());
 
 app.use('/', routes);
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
     app.listen(5000, () => console.log('Now listening on Port 5000'));
 });

@@ -5,7 +5,7 @@
         </v-toolbar>
         <v-data-table :headers="headers" :items="bookmarks">
             <template slot="items" slot-scope="props">
-                <tr @click="handleClick(props.item.id)">
+                <tr @click="handleClick(props.item.Song.id)">
                     <td class="px-0">{{props.item.id}}</td>
                     <td class="text-md-left">{{props.item.Song.title}}</td>
                     <td class="text-xs-left">{{props.item.Song.artist}}</td>
@@ -39,6 +39,16 @@
         mounted: async function() {
             if (this.loggedIn) {
                 this.bookmarks = (await bookmarkService.find(this.user.id)).data;
+            }
+        },
+        methods: {
+            handleClick: function(id) {
+                this.$router.push({
+                    name: 'song',
+                    params: {
+                        id: id
+                    }
+                });
             }
         }
     };

@@ -20,7 +20,8 @@
                 </Panel>
             </v-flex>
             <v-flex md12 xs12 class="mt-4" v-if="writeAccess">
-                <v-btn v-on:click="addBookmark()">Bookmark</v-btn>
+                <v-btn v-if="notBookmarked" v-on:click="addBookmark()">Bookmark</v-btn>
+                <v-btn v-if="!notBookmarked" v-on:click="deleteBookmark()" color="error">Unbookmark</v-btn>
                 <edit-song :song="song" />
                 <v-btn color="error" v-on:click="deleteSong()">Delete</v-btn>
             </v-flex>
@@ -41,8 +42,9 @@
         },
         data: function() {
             return {
-                bookmarked: false,
+                item: 'an item',
                 song: {
+                    bookmark: [],
                     id: '',
                     title: '',
                     artist: '',
@@ -62,13 +64,24 @@
                     this.writeAccess = true;
                 }
             } catch (error) {
-                console.log({ error });
+                console.log(error);
             }
         },
-        computed: mapState({
-            loggedIn: 'loggedIn',
-            user: 'user'
-        }),
+        computed: {
+            ...mapState({
+                loggedIn: 'loggedIn',
+                user: 'user'
+            }),
+            notBookmarked: {
+                get: function() {
+                    const bookmarked = bookmarkService.isBookmarked(
+                        this.song,
+                        this.user
+                    );
+                    return bookmarked;
+                }
+            }
+        },
         methods: {
             async deleteSong() {
                 try {
@@ -88,10 +101,28 @@
                             SongId: this.song.id
                         };
                         await bookmarkService.add(item);
+                        this.song = (await songService.find(
+                            this.$route.params.id
+                        )).data;
                     }
                 } catch (error) {
-                    console.log(error);
                     alert('Error adding bookmark');
+                }
+            },
+            async deleteBookmark() {
+                try {
+                    if (this.loggedIn) {
+                        const item = {
+                            UserId: this.user.id,
+                            SongId: this.song.id
+                        };
+                        await bookmarkService.delete(item);
+                        this.song = (await songService.find(
+                            this.$route.params.id
+                        )).data;
+                    }
+                } catch (error) {
+                    alert('error deleting bookmark');
                 }
             }
         }
