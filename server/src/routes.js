@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const authController = require('./controllers/authController');
 const songController = require('./controllers/songController');
 const bookmarkController = require('./controllers/bookmarkController');
@@ -14,14 +15,34 @@ router.get('/songs', songController.index);
 
 // Song CRUD Routes
 router.get('/songs/:id', songController.find);
-router.post('/songs/add', songController.add);
-router.put('/songs/edit', songController.edit);
-router.post('/songs/delete', songController.delete);
+router.post(
+    '/songs/add',
+    passport.authenticate('jwt', { session: false }),
+    songController.add
+);
+router.put(
+    '/songs/edit',
+    passport.authenticate('jwt', { session: false }),
+    songController.edit
+);
+router.post(
+    '/songs/delete',
+    passport.authenticate('jwt'),
+    songController.delete
+);
 
 // Bookmark Routes
 router.get('/bookmarks', bookmarkController.index);
 router.get('/bookmarks/:id', bookmarkController.listBookmark);
-router.post('/bookmarks/add', bookmarkController.addBookmark);
-router.post('/bookmarks/delete', bookmarkController.deleteBookmark);
+router.post(
+    '/bookmarks/add',
+    passport.authenticate('jwt', { session: false }),
+    bookmarkController.addBookmark
+);
+router.post(
+    '/bookmarks/delete',
+    passport.authenticate('jwt', { session: false }),
+    bookmarkController.deleteBookmark
+);
 
 module.exports = router;
