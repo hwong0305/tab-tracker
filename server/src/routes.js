@@ -4,10 +4,11 @@ const passport = require('passport');
 const authController = require('./controllers/authController');
 const songController = require('./controllers/songController');
 const bookmarkController = require('./controllers/bookmarkController');
+const authPolicy = require('./policies/authPolicy');
 
 // Authentication Routes
 router.post('/login', authController.login);
-router.post('/register', authController.register);
+router.post('/register', authPolicy.register, authController.register);
 
 // Administration Route
 router.get('/users', authController.index);
